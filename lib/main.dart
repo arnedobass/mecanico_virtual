@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart'; // ✅ dotenv
-import 'package:flutter_dotenv/flutter_dotenv.dart'; // ✅ importar dotenv
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // ✅ dotenv (una sola importación)
 
+// Screens
 import 'screens/bienvenida_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
@@ -14,10 +14,15 @@ import 'screens/chispa_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // ✅ Cargar variables de entorno
-  await dotenv.load(fileName: ".env");
-   // ✅ Cargar el archivo .env antes de correr la app
-  await dotenv.load(fileName: ".env");
+
+  // ✅ Cargar variables de entorno (si falta .env no rompe la app)
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (_) {
+    // Podés loguear si querés: debugPrint("⚠️ .env no encontrado, usando defaults");
+  }
+
+  // ✅ Inicializar Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -38,13 +43,13 @@ class MecanicoVirtualApp extends StatelessWidget {
       ),
       initialRoute: '/', // o '/login' si querés saltar la bienvenida
       routes: {
-        '/':                (context) => const BienvenidaScreen(),
-        '/login':           (context) => const LoginScreen(),
-        '/home':            (context) => const HomeScreen(),
-        '/otp':             (context) => const OtpScreen(),
-        '/seleccion_auto':  (context) => const SeleccionAutoScreen(),
+        '/':                   (context) => const BienvenidaScreen(),
+        '/login':              (context) => const LoginScreen(),
+        '/home':               (context) => const HomeScreen(),
+        '/otp':                (context) => const OtpScreen(),
+        '/seleccion_auto':     (context) => const SeleccionAutoScreen(),
         '/presentacion-cacho': (context) => const PresentacionCachoScreen(),
-        '/chispa':          (context) => const ChispaScreen(),
+        '/chispa':             (context) => const ChispaScreen(),
       },
     );
   }
