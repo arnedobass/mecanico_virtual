@@ -14,7 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.1
   shared_preferences: ^2.2.3
-  firebase_core: ^2.27.0
+  firebase_core: ^2.32.0
   firebase_auth: ^4.17.8
   flutter_tts: ^3.6.3
   # path_provider: ^2.1.3   # ❌ en Web no lo uses (lo reemplazamos con shared_preferences)
@@ -32,6 +32,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/marcas_modelos.json
-    - assets/cacho_bujia.png     # <-- imagen principal (requerida)
-    - assets/bg_gears.png        # <-- opcional (patrón suave de engranajes)
-    - assets/cacho_bujia_pulgar_arriba.png     # <-- imagen principal (requerida)
+    - assets/cacho_bujia.png    
+    - assets/bg_gears.png       
+    - assets/cacho_bujia_pulgar_arriba.png
+    - assets/.env
+    - assets/ch_c1.png
