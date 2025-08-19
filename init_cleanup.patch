@@ -1,0 +1,195 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ChatGPT <patch@mecanico.virtual>
+Date: Tue, 19 Aug 2025 00:00:00 -0300
+Subject: [PATCH] init: estructura base, README_dev, gitattributes y ajustes
+ .gitignore
+
+---
+ .gitattributes           |  22 ++++++++
+ .gitignore               |  20 +++++++
+ README_dev.md            | 131 +++++++++++++++++++++++++++++++++++++++
+ lib/models/.gitkeep      |   0
+ lib/services/.gitkeep    |   0
+ lib/widgets/.gitkeep     |   0
+ 6 files changed, 173 insertions(+)
+ create mode 100644 .gitattributes
+ create mode 100644 README_dev.md
+ create mode 100644 lib/models/.gitkeep
+ create mode 100644 lib/services/.gitkeep
+ create mode 100644 lib/widgets/.gitkeep
+
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1,22 @@
++# Normalizar saltos de línea en texto
++* text=auto
++
++# Mantener binarios tal cual
++*.png binary
++*.jpg binary
++*.jpeg binary
++*.webp binary
++*.gif binary
++*.keystore binary
++*.jks binary
++
++# Evitar CRLF en scripts/patches
++*.sh text eol=lf
++*.patch text eol=lf
++*.gradle text eol=lf
++*.kt text eol=lf
++*.kts text eol=lf
++*.dart text eol=lf
++*.yaml text eol=lf
++*.yml text eol=lf
++*.md text eol=lf
+diff --git a/.gitignore b/.gitignore
+index 2222222..3333333 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,23 @@
++# 🔒 Extras seguros (añadidos)
++# Android
++android/.gradle/
++android/local.properties
++
++# iOS/macOS Pods
++ios/Pods/
++macos/Pods/
++
++# Claves / certificados
++**/*.keystore
++**/*.jks
++
++# VS Code (si no querés versionarlo, descomenta)
++# .vscode/
++
++# Flutter cache extra
++.flutter-plugins
++.flutter-plugins-dependencies
++
+diff --git a/README_dev.md b/README_dev.md
+new file mode 100644
+index 0000000..4444444
+--- /dev/null
++++ b/README_dev.md
+@@ -0,0 +131,131 @@
++# Mecánico Virtual — Guía de trabajo dev
++
++> Proyecto Flutter/Dart. Este README resume comandos clave y el flujo estándar con Git.
++
++## Requisitos
++- Flutter SDK instalado (`flutter --version`)
++- Android Studio y/o VS Code con extensiones Flutter/Dart
++- JDK (Temurin 21 recomendado)
++
++## Estructura sugerida
++```
++lib/
++  main.dart
++  screens/
++  services/
++  models/
++  widgets/
++```
++
++> Usar `services` para TTS, Firebase, local storage, etc.; `models` para entidades (UserProfile, VehicleSelection…); `widgets` para UI reutilizable.
++
++## Comandos clave
++```bash
++# limpieza y dependencias
++flutter clean
++flutter pub get
++
++# correr en dispositivo/emulador
++flutter run
++
++# formatear código
++dart format .
++
++# analizar (lint)
++flutter analyze
++```
++
++## Build APK (debug/release)
++```bash
++# debug universal
++flutter build apk
++
++# release (optimizado)
++flutter build apk --release
++```
++El APK queda en `build/app/outputs/flutter-apk/`.
++
++## Variables de entorno
++- **NO** subir `.env` al repo (ya está en .gitignore).
++- Usar `flutter_dotenv` (o similar) y cargar en `main()`:
++```dart
++// ejemplo:
++// await dotenv.load(fileName: ".env");
++```
++
++## Git — flujo básico
++```bash
++# ver estado
++git status
++
++# agregar cambios y commitear
++git add .
++git commit -m "feat: descripción"
++
++# subir
++git push
++```
++
++### Aplicar parches que recibas
++```bash
++git apply --3way archivo.patch
++```
++Si hay conflictos, Git los marca en los archivos; resolvés y:
++```bash
++git add .
++git commit -m "fix: resolver conflictos de parche"
++```
++
++## Ramas (opcional)
++```bash
++git checkout -b feature/nueva-pantalla
++# ...trabajás...
++git push -u origin feature/nueva-pantalla
++```
++Luego se puede mergear a `main`.
++
++## Problemas comunes
++- **“Gradle build lento/atascado”**: `flutter clean`, borrar `.gradle` dentro de `android`, reabrir IDE.
++- **“No encuentra Java”**: verificar `java -version` y que Gradle apunte a Java 11/17/21 según plugin.
++- **“Permisos Android”**: verificar `AndroidManifest.xml`.
++- **“.env no carga”**: confirmar que el archivo exista en la raíz del proyecto y que el package de dotenv esté correctamente inicializado antes de `runApp`.
++
++## Estilo/convenciones
++- Nombres de archivos en `snake_case`.
++- Widgets largos → dividir en widgets chicos en `/widgets`.
++- Mantener `screens` limpias: lógica afuera (services/models).
++
++---
++**TIP de trabajo conjunto**
++1. Commit/push de tus cambios.
++2. Compartir hash corto (`git rev-parse --short HEAD`).
++3. Se te envía un `.patch` o archivos completos.
++4. Aplicás, probás con `flutter run`, y si anda: commit + push.
++
++¡Listo!
+diff --git a/lib/models/.gitkeep b/lib/models/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/lib/services/.gitkeep b/lib/services/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/lib/widgets/.gitkeep b/lib/widgets/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+-- 
+2.46.0

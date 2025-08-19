@@ -1,0 +1,23 @@
+@'
+* text=auto
+
+# binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.keystore binary
+*.jks binary
+
+# fuerzo LF en texto/código
+*.sh text eol=lf
+*.patch text eol=lf
+*.gradle text eol=lf
+*.kt text eol=lf
+*.kts text eol=lf
+*.dart text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+'@ | Set-Content -Encoding utf8 .gitattributes

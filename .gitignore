@@ -58,3 +58,22 @@ macos/Pods/
 # Claves o certificados
 **/*.keystore
 **/*.jks
+git add .
+
+@'
+# Android
+android/.gradle/
+android/local.properties
+
+# iOS/macOS Pods
+ios/Pods/
+macos/Pods/
+
+# Claves / certificados
+**/*.keystore
+**/*.jks
+
+# Flutter cache extra
+.flutter-plugins
+.flutter-plugins-dependencies
+'@ | Add-Content .gitignore
