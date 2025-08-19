@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  http: ^1.2.1
+  http: ^1.2.2
   shared_preferences: ^2.2.3
   firebase_core: ^2.32.0
   firebase_auth: ^4.17.8
@@ -22,6 +22,8 @@ dependencies:
   audioplayers: ^5.2.1
   intl_phone_field: ^3.2.0
   flutter_dotenv: ^5.2.1
+  path_provider: ^2.1.4
+  just_audio: ^0.9.42
   
 dev_dependencies:
   flutter_test:
@@ -35,5 +37,5 @@ flutter:
     - assets/cacho_bujia.png    
     - assets/bg_gears.png       
     - assets/cacho_bujia_pulgar_arriba.png
-    - assets/.env
+    - assets/env.json
     - assets/ch_c1.png
