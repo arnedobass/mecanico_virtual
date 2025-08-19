@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "508401634531",
+    "project_id": "mecanico-virtual-8f569",
+    "storage_bucket": "mecanico-virtual-8f569.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508401634531:android:f0ec9a9a477150e60a89d6",
+        "android_client_info": {
+          "package_name": "com.dariocruz.mecanico_virtual"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzFBTmfHpJuY9R8qiMJSsnWMbd0A9xoAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508401634531:android:c387f845fc4fcc130a89d6",
+        "android_client_info": {
+          "package_name": "com.dariocruz.mecanicovirtual"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzFBTmfHpJuY9R8qiMJSsnWMbd0A9xoAo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
