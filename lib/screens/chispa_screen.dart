@@ -11,7 +11,6 @@ class ChispaScreen extends StatefulWidget {
 }
 
 class _ChispaScreenState extends State<ChispaScreen> {
-  // Estado
   late final OpenAiTtsService _voice;
   bool _loading = false;
 

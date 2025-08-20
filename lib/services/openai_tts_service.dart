@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:just_audio/just_audio.dart';
-import 'env_service.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
+import 'env_service.dart';
 
-/// Servicio: genera texto (reseña corta) y lo sintetiza a MP3 con voz "ballad".
+/// Genera una reseña corta y la convierte a audio (voz "ballad").
 class OpenAiTtsService {
-  // Tomamos la key del EnvService (ya inicializado en main)
-  final String _apiKey = EnvService.openAiKey;
+  final String _apiKey = EnvService.openAiKey; // cargada en main con EnvService.init()
   final String _modelText = 'gpt-4o-mini';
   final String _modelTts  = 'gpt-4o-mini-tts';
   final AudioPlayer _player = AudioPlayer();
@@ -25,7 +24,6 @@ class OpenAiTtsService {
     );
     if (res.statusCode != 200) {
       if (kDebugMode) {
-        // Log detallado para diagnosticar (no imprime la key)
         // ignore: avoid_print
         print('HTTP ${res.statusCode} ${uri.path} => ${res.body}');
       }
@@ -52,8 +50,7 @@ Evita datos hiper específicos que no sean universales del modelo.
       'messages': [
         {
           'role': 'system',
-          'content':
-              'Eres un asesor automotriz breve, claro y amable. Responde en español de Argentina.'
+          'content': 'Eres un asesor automotriz breve y claro. Responde en español de Argentina.'
         },
         {'role': 'user', 'content': prompt},
       ],
@@ -63,22 +60,17 @@ Evita datos hiper específicos que no sean universales del modelo.
 
     final raw = await _postJson(uri, body);
     final data = jsonDecode(raw) as Map<String, dynamic>;
-    final content =
-        (data['choices']?[0]?['message']?['content'] ?? '').toString().trim();
-    if (content.isEmpty) {
-      throw Exception('Respuesta de texto vacía');
-    }
+    final content = (data['choices']?[0]?['message']?['content'] ?? '').toString().trim();
+    if (content.isEmpty) throw Exception('Respuesta de texto vacía');
     return content;
   }
 
-  /// Llama al endpoint TTS oficial. Respuesta = bytes MP3 directos.
   Future<File> _synthesize(String texto) async {
     final uri = Uri.parse('https://api.openai.com/v1/audio/speech');
 
-    // Nota: el “estilo” lo incluimos dentro de input, no hace falta otro campo.
     final input = '''
 [Personaje: CHISPA CH-C1 · robot tipo C3PO]
-[Idioma: español de Argentina · Tono: jocoso, claro y educado · Ritmo: ágil, pausas cortas]
+[Idioma: español de Argentina · Tono: jocoso y educado · Ritmo: ágil, pausas cortas]
 $texto
 ''';
 
@@ -112,7 +104,6 @@ $texto
     return file;
   }
 
-  /// Orquesta: obtiene datos del LocalStore y habla.
   Future<void> speakResumenAuto({
     required String marca,
     required String modelo,
@@ -122,14 +113,7 @@ $texto
     if (_apiKey.isEmpty) {
       throw Exception('Falta OPENAI_API_KEY (EnvService.openAiKey vacío)');
     }
-
-    final texto = await _buildResumen(
-      marca: marca,
-      modelo: modelo,
-      anio: anio,
-      nombre: nombre,
-    );
-
+    final texto = await _buildResumen(marca: marca, modelo: modelo, anio: anio, nombre: nombre);
     final mp3 = await _synthesize(texto);
     await _player.setFilePath(mp3.path);
     await _player.play();
